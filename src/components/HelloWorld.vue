@@ -1,8 +1,8 @@
 <template>
     <div class="all">
-        <div class="bg"> <img width="100%" height="100%" src="../img/42047c77ab6e9d10e0e8634f1e4200f4.jpeg" alt=""> </div>
+        <div class="bg"> <img width="100%" height="100%" src="../assets/42047c77ab6e9d10e0e8634f1e4200f4.jpeg" alt=""> </div>
         <div class="top">
-            <img width="105px" height="105px" src="../img/843a32713b77fac3bcc60d35246bec31.jpeg" alt="">
+            <img width="105px" height="105px" src="../assets/843a32713b77fac3bcc60d35246bec31.jpeg" alt="">
             <span class="brand"></span>
             <span class="name">粥品香坊(大运村)</span>
             <br>
@@ -24,8 +24,8 @@
                                 <div v-if="active === 0" class="rexiaobang">
                                     <van-cell v-for="item in cartItems" :key="item.id">
                                         <template #icon>
-                                            <img width="100px" height="80px" src="../img/pidan.jpeg" alt="">
-                                            <!-- <van-image width="100px" height="100px" fit="contain" :src="item.image"/> -->
+                                            <img width="100px" height="80px" src="../assets/pidan.jpeg" alt="">
+                                            <!-- <van-image width="100px" height="100px" fit="contain" :src="item.img"/> -->
                                         </template>
                                         <template #title>
                                             <span class="cart-item-title">{{ item.name }}</span>
@@ -39,8 +39,8 @@
                                 <div v-if="active === 1">
                                     <van-cell v-for="item1 in cartItems1" :key="item1.id">
                                         <template #icon>
-                                            <img width="100px" height="80px" src="../img/pidan.jpeg" alt="">
-                                            <!-- <van-image width="100px" height="100px" fit="contain" :src="item.image"/> -->
+                                            <img width="100px" height="80px" src="../assets/pidan.jpeg" alt="">
+                                            <!-- <van-image width="100px" height="100px" fit="contain" :src="item.img"/> -->
                                         </template>
                                         <template #title>
                                             <span class="cart-item-title">{{ item1.name }}</span>
@@ -136,9 +136,10 @@
                                 </div>
 
                                 <div v-if="active === 8">
-                                    <van-cell v-for="item8 in cartItems8" :key="item8.id">
+                                <van-cell v-for="item8 in cartItems8" :key="item8.id">
                                         <template #icon>
-                                           <img :src="item8.img" width="100px" height="80px"  />
+                                           <img :src="pic" width="100px" height="80px">
+                                           
                                         </template>
                                         <template #title>
                                             <span class="cart-item-title">{{ item8.name }}</span>
@@ -159,15 +160,24 @@
             </van-tabs>
         </div>
 
-        <div class="show">
+        <div class="show"><!-- 
             <van-overlay :show="show" @click="show = false">
                 <div class="wrapper" @click.stop>
                     <div class="block" />
                 </div>
-             </van-overlay>
+             </van-overlay> -->
 
-                <!-- <van-submit-bar :price="calculateTotalPrice()" currency="￥" button-text="提交订单" >
-                </van-submit-bar> -->
+                <van-submit-bar :price="calculateTotalPrice()" currency="￥" button-text="提交订单" @click="show = true">
+                    <van-overlay :show="show" @click="show = false">
+                <div class="wrapper" @click.stop>
+                    <van-form>
+<van-field v-model="name" label="姓名" placeholder="请输入姓名" />
+<van-field v-model="phone" label="电话" placeholder="请输入电话" />
+<van-button type="primary" @click="submitOrder">确认提交</van-button>
+</van-form>
+                </div>
+             </van-overlay>
+                </van-submit-bar>
         </div>
 
 
@@ -180,49 +190,51 @@
 export default {
     data() {
         return {
+              pic:require("../assets/xiaren.jpeg"),
+              show: false,
             cartItems: [
-                { id: 1, name: '皮蛋瘦肉粥', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 10 },
-                { id: 2, name: '扁豆焖面', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 14 },
-                { id: 3, name: '葱花饼', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 5 },
-                { id: 4, name: '牛肉馅饼', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
-                { id: 5, name: '招牌猪肉锅贴', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
-                { id: 6, name: '白粥', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 5 },
+                { id: 1, name: '皮蛋瘦肉粥', image: '../assets/pidan.jpeg', quantity: 0, stock: 10, price: 10 },
+                { id: 2, name: '扁豆焖面', image: '../assets/pidan.jpeg', quantity: 0, stock: 10, price: 14 },
+                { id: 3, name: '葱花饼', image: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 5 },
+                { id: 4, name: '牛肉馅饼', image: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
+                { id: 5, name: '招牌猪肉锅贴', image: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
+                { id: 6, name: '白粥', image: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 5 },
             ],
             cartItems1: [
-                { id: 1, name: '虾仁面', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 20 },
-                { id: 2, name: '牛肉面', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
-                { id: 3, name: '牛肉盖浇饭', img: "./img/niurou.jpeg", quantity: 0, stock: 10, price: 18 },
+                { id: 1, name: '虾仁面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 20 },
+                { id: 2, name: '牛肉面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
+                { id: 3, name: '牛肉盖浇饭', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
             ],
             cartItems2: [
-                { id: 1, name: '白粥', img: "./img/xiaren.jpeg", quantity: 0, stock: 10, price: 3 },
-                { id: 2, name: '皮蛋瘦肉粥', img: "./img/niurou.jpeg", quantity: 0, stock: 10, price: 10 },
+                { id: 1, name: '白粥', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 3 },
+                { id: 2, name: '皮蛋瘦肉粥', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 10 },
             ],
             cartItems3: [
-                { id: 1, name: '虾仁面', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 20 },
-                { id: 2, name: '牛肉面', img: './img/niurou.jpeg', quantity: 0, stock: 10, price: 18 },
-                { id: 3, name: '葱花饼', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 5 },
-                { id: 4, name: '牛肉馅饼', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
-                { id: 5, name: '招牌猪肉锅贴', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
+                { id: 1, name: '虾仁面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 20 },
+                { id: 2, name: '牛肉面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
+                { id: 3, name: '葱花饼', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 5 },
+                { id: 4, name: '牛肉馅饼', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
+                { id: 5, name: '招牌猪肉锅贴', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 8 },
             ],
             cartItems4: [
-                { id: 1, name: '五香牛肉', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 30 },
-                { id: 2, name: '凉拌黄瓜', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 10 },
+                { id: 1, name: '五香牛肉', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 30 },
+                { id: 2, name: '凉拌黄瓜', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 10 },
             ],
             cartItems5: [
-                { id: 1, name: '梅菜扣肉', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 18 },
+                { id: 1, name: '梅菜扣肉', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
             ],
             cartItems6: [
-                { id: 1, name: '东北大米', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 2 },
-                { id: 2, name: '牛肉盖浇饭', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 18 },
+                { id: 1, name: '东北大米', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 2 },
+                { id: 2, name: '牛肉盖浇饭', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
             ],
             cartItems7: [
-                { id: 1, name: '虾仁面', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 20 },
-                { id: 2, name: '牛肉面', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 18 },
-                { id: 3, name: '扁豆焖面', image: './img/pidan.jpeg', quantity: 0, stock: 10, price: 14 },
+                { id: 1, name: '虾仁面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 20 },
+                { id: 2, name: '牛肉面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 18 },
+                { id: 3, name: '扁豆焖面', img: 'src/assets/pidan.jpeg', quantity: 0, stock: 10, price: 14 },
             ],
             cartItems8: [
-                { id: 1, name: '矿泉水', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 2 },
-                { id: 2, name: '可乐', img: './img/xiaren.jpeg', quantity: 0, stock: 10, price: 3.5 },
+                { id: 1, name: '矿泉水', img: "pic", quantity: 0, stock: 10, price: 2 },
+                { id: 2, name: '可乐', img: 'pic', quantity: 0, stock: 10, price: 3.5 },
             ],
             activeKey: 0,
             activeName: 'a',
@@ -275,20 +287,12 @@ export default {
 .all {
     padding-top: 0%;
 }
-.wrapper {
+.wrapper{
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    z-index: 3;
-}
-
-.block {
-    width: 120px;
-    height: 120px;
-    background-color: #fff;
-    
-    z-index: 3;
+    width: 100%;
 }
 .show{
     z-index: 3;
@@ -345,7 +349,7 @@ export default {
 .top .brand {
     width: 30px;
     height: 18px;
-    background-image: url(../img/d7e796399284ef4996db0585237164c.png);
+    background-image: url(../assets/d7e796399284ef4996db0585237164c.png);
     background-size: 30px 18px;
     background-repeat: no-repeat;
     display: flex;
