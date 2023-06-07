@@ -17,6 +17,7 @@
         </div>
         <div class="bt">
             <van-tabs v-model="activeName">
+
                 <van-tab title="商品" name="a">
                     <div class="left">
                         <van-tree-select height="100vw" :items="items" :main-active-index.sync="active">
@@ -32,7 +33,8 @@
                                             <span class="cart-item-price">{{ item.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item.quantity" :min="0" theme="round" :max="item.stock" class="list" />
+                                            <van-stepper v-model="item.quantity" :min="0" theme="round" :max="item.stock"
+                                                class="list" @change="stepCalc(item)"/>
                                         </template>
                                     </van-cell>
                                 </div>
@@ -47,8 +49,8 @@
                                             <span class="cart-item-price">{{ item1.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item1.quantity" :min="0" theme="round"
-                                                :max="item1.stock" class="list" />
+                                            <van-stepper v-model="item1.quantity" :min="0" theme="round" :max="item1.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -63,8 +65,8 @@
                                             <span class="cart-item-price">{{ item2.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item2.quantity" :min="0" theme="round"
-                                                :max="item2.stock" class="list" />
+                                            <van-stepper v-model="item2.quantity" :min="0" theme="round" :max="item2.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -79,8 +81,8 @@
                                             <span class="cart-item-price">{{ item3.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item3.quantity" :min="0" theme="round"
-                                                :max="item3.stock" class="list" />
+                                            <van-stepper v-model="item3.quantity" :min="0" theme="round" :max="item3.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -95,8 +97,8 @@
                                             <span class="cart-item-price">{{ item4.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item4.quantity" :min="0" theme="round"
-                                                :max="item4.stock" class="list" />
+                                            <van-stepper v-model="item4.quantity" :min="0" theme="round" :max="item4.stock"
+                                                class="list" @change="fghgf" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -111,8 +113,8 @@
                                             <span class="cart-item-price">{{ item5.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item5.quantity" :min="0" theme="round"
-                                                :max="item5.stock" class="list" />
+                                            <van-stepper v-model="item5.quantity" :min="0" theme="round" :max="item5.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -127,8 +129,8 @@
                                             <span class="cart-item-price">{{ item6.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item6.quantity" :min="0" theme="round"
-                                                :max="item6.stock" class="list" />
+                                            <van-stepper v-model="item6.quantity" :min="0" theme="round" :max="item6.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -143,8 +145,8 @@
                                             <span class="cart-item-price">{{ item7.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item7.quantity" :min="0" theme="round"
-                                                :max="item7.stock"  class="list" />
+                                            <van-stepper v-model="item7.quantity" :min="0" theme="round" :max="item7.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -159,8 +161,8 @@
                                             <span class="cart-item-price">{{ item8.price }}￥</span><br>
                                         </template>
                                         <template #label>
-                                            <van-stepper v-model="item8.quantity" :min="0" theme="round"
-                                                :max="item8.stock" class="list" />
+                                            <van-stepper v-model="item8.quantity" :min="0" theme="round" :max="item8.stock"
+                                                class="list" />
                                         </template>
                                     </van-cell>
                                 </div>
@@ -177,28 +179,89 @@
 
         </div>
 
-        <div class="show">
-            <div class="wrapper" @click.stop>
-                <div class="down">
-                    <van-submit-bar :price="calculateTotalPrice()" currency="￥" button-text="提交订单" @click="show = false">
-                        <van-goods-action-icon icon="cart-o" text="购物车" badge="" @click="show = true" />
-                        <button @click="show = false" class="close"></button>
-                    </van-submit-bar>
-                </div>
-                <van-overlay :show="show">
-                    <div class="cart">
-                        <ul>
-                            <li v-for=" item  in  cartItems " :key="item.id">
-                                <span>{{ item.name }}</span>
-                                <button @click="decreaseQuantity(item)">-</button>
-                                {{ item.quantity }}
-                                <button @click="increaseQuantity(item)">+</button>
-                            </li>
-                        </ul>
+        <template>
+            <div class="show">
+                <div class="wrapper" @click.stop>
+                    <div class="down">
+                        <van-submit-bar :price="calculateTotalPrice()" currency="￥" button-text="提交订单">
+                            <van-goods-action-icon icon="cart-o" text="购物车" :badge="updateCartCount" @click="show = true" />
+                            <button @click="show = false" class="close"></button>
+                        </van-submit-bar>
+
+                        <van-popup v-model="show" position="bottom" :style="{ height: '40%' }" title="购物车"
+                            lock-scroll="true">
+                            <div>
+                                <van-nav-bar style="position: fixed;width: 100%;height: 50px;" title="购物车" left-text="返回"
+                                    right-text="清空" left-arrow @click-left="closeOverlay" @click-right="clear"
+                                    class="btl" />
+
+                                <van-list>
+                                    <van-cell v-for="item in cartItems" :key="item.id" :title="item.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item.quantity" min="0" @change="updateQuantity(item)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item1 in cartItems1" :key="item1.id" :title="item1.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item1.quantity" min="0" @change="updateQuantity(item1)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item2 in cartItems2" :key="item2.id" :title="item2.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item2.quantity" min="0" @change="updateQuantity(item2)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item3 in cartItems3" :key="item3.id" :title="item3.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item3.quantity" min="0" @change="updateQuantity(item3)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item4 in cartItems4" :key="item4.id" :title="item4.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item4.quantity" min="0" @change="updateQuantity(item4)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item5 in cartItems5" :key="item5.id" :title="item5.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item5.quantity" min="0" @change="updateQuantity(item5)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item6 in cartItems6" :key="item6.id" :title="item6.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item6.quantity" min="0" @change="updateQuantity(item6)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item7 in cartItems7" :key="item7.id" :title="item7.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item7.quantity" min="0" @change="updateQuantity(item7)" />
+                                        </template>
+                                    </van-cell>
+
+                                    <van-cell v-for="item8 in cartItems8" :key="item8.id" :title="item8.name">
+                                        <template #right-icon>
+                                            <van-stepper v-model="item8.quantity" min="0" @change="updateQuantity(item8)" />
+                                        </template>
+                                    </van-cell>
+                                </van-list>
+                                <van-submit-bar :price="calculateTotalPrice()" currency="￥" button-text="提交订单">
+                                    <van-goods-action-icon icon="cart-o" color="#ee0a24" text="购物车" badge=""
+                                        @click="show = true" />
+                                    <button @click="show = false" class="close"></button>
+                                </van-submit-bar>
+                            </div>
+                        </van-popup>
                     </div>
-                </van-overlay>
+                </div>
             </div>
-        </div>
+        </template>
+
 
 
     </div>
@@ -210,6 +273,7 @@
 export default {
     data() {
         return {
+            cartList:[],
             show: false,
             cartItems: [
                 { id: 1, name: '皮蛋瘦肉粥', image: 'https://img2.baidu.com/it/u=406445976,3690777685&fm=253&fmt=auto&app=138&f=JPEG?w=749&h=500', quantity: 0, stock: 10, price: 10 },
@@ -217,15 +281,15 @@ export default {
                 { id: 3, name: '葱花饼', image: 'https://img0.baidu.com/it/u=2049248720,585528861&fm=253&fmt=auto&app=138&f=JPEG?w=891&h=500', quantity: 0, stock: 10, price: 5 },
                 { id: 4, name: '牛肉馅饼', image: 'https://img0.baidu.com/it/u=2192220834,4230666328&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500', quantity: 0, stock: 10, price: 8 },
                 { id: 5, name: '招牌猪肉锅贴', image: 'https://img1.baidu.com/it/u=4150458387,3890219342&fm=253&fmt=auto&app=138&f=JPEG?w=780&h=439', quantity: 0, stock: 10, price: 8 },
-                { id: 6, name: '白粥', image: 'https://img1.baidu.com/it/u=159615777,2476162366&fm=253&fmt=auto&app=120&f=JPEG?w=1071&h=800', quantity: 0, stock: 10, price: 5 },
+                { id: 6, name: '白粥', image: 'https://img1.baidu.com/it/u=159615777,2476162366&fm=253&fmt=auto&app=120&f=JPEG?w=1071&h=800', quantity: 0, stock: 10, price: 3 },
             ],
             cartItems1: [
-                { id: 1, name: '虾仁面', img: 'https://img0.baidu.com/it/u=1588850444,3775538560&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=375', quantity: 0, stock: 10, price: 20 },
-                { id: 2, name: '牛肉面', img: 'https://img2.baidu.com/it/u=2527029237,762113438&fm=253&fmt=auto&app=138&f=JPEG?w=891&h=500', quantity: 0, stock: 10, price: 18 },
-                { id: 3, name: '牛肉盖浇饭', img: 'https://img1.baidu.com/it/u=615063929,2360602307&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500', quantity: 0, stock: 10, price: 18 },
+                { id: 7, name: '虾仁面', img: 'https://img0.baidu.com/it/u=1588850444,3775538560&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=375', quantity: 0, stock: 10, price: 20 },
+                { id: 8, name: '牛肉面', img: 'https://img2.baidu.com/it/u=2527029237,762113438&fm=253&fmt=auto&app=138&f=JPEG?w=891&h=500', quantity: 0, stock: 10, price: 18 },
+                { id: 9, name: '牛肉盖浇饭', img: 'https://img1.baidu.com/it/u=615063929,2360602307&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=500', quantity: 0, stock: 10, price: 18 },
             ],
             cartItems2: [
-                { id: 1, name: '白粥', img: 'https://img1.baidu.com/it/u=159615777,2476162366&fm=253&fmt=auto&app=120&f=JPEG?w=1071&h=800', quantity: 0, stock: 10, price: 3 },
+                { id: 10, name: '白粥', img: 'https://img1.baidu.com/it/u=159615777,2476162366&fm=253&fmt=auto&app=120&f=JPEG?w=1071&h=800', quantity: 0, stock: 10, price: 3 },
                 { id: 2, name: '皮蛋瘦肉粥', img: 'https://img2.baidu.com/it/u=406445976,3690777685&fm=253&fmt=auto&app=138&f=JPEG?w=749&h=500', quantity: 0, stock: 10, price: 10 },
             ],
             cartItems3: [
@@ -264,6 +328,13 @@ export default {
         };
     },
     methods: {
+        stepCalc(item){
+            this.cartList.forEach(item)
+                if(item.quantity !=0 ){
+
+                }
+            
+        },
         calculateTotalPrice() {
             let totalPrice = 0;
             for (const item of this.cartItems) {
@@ -298,20 +369,38 @@ export default {
         closeOverlay() {
             this.show = false;
         },
-        decreaseQuantity(item) {
-            if (item.quantity > 0) {
-                item.quantity--;
-                if (item.quantity === 0) {
-                    this.selectedItem = null;
-                }
+        clear() {
+            for (let item of this.cartItems) {
+                item.quantity = 0;
             }
-        },
-        increaseQuantity(item) {
-            item.quantity++;
-            if (item.quantity === 1) {
-                this.selectedItem = item;
+            for (let item1 of this.cartItems1) {
+                item1.quantity = 0;
             }
+            for (let item2 of this.cartItems2) {
+                item2.quantity = 0;
+            }
+            for (let item3 of this.cartItems3) {
+                item3.quantity = 0;
+            }
+            for (let item4 of this.cartItems4) {
+                item4.quantity = 0;
+            }
+            for (let item5 of this.cartItems5) {
+                item5.quantity = 0;
+            }
+            for (let item6 of this.cartItems6) {
+                item6.quantity = 0;
+            }
+            for (let item7 of this.cartItems7) {
+                item7.quantity = 0;
+            }
+            for (let item8 of this.cartItems8) {
+                item8.quantity = 0;
+            }
+            this.quantity = null;
         },
+
+
     },
 
 };
@@ -324,13 +413,15 @@ export default {
 .all {
     padding-top: 0%;
 }
-.list{
+
+.list {
     position: relative;
     text-align: bottom;
     bottom: -15px;
     justify-content: bottom;
     left: 20px;
 }
+
 .close {
     position: relative;
     left: 280px;
@@ -341,12 +432,14 @@ export default {
     border-radius: 0%;
     background: #ff000000;
 }
-.cart-item-price{
+
+.cart-item-price {
     position: absolute;
     text-align: right;
     align-items: right;
     justify-content: right;
 }
+
 .down {
     position: relative;
     top: 600px;
@@ -355,10 +448,10 @@ export default {
 .cart {
     color: #fff;
     position: relative;
-    top: 550px;
+    top: 300px;
+    width: 100%;
     left: 0px;
     display: flex;
-    align-items: bottom;
     justify-content: right;
     bottom: 0px;
 }
@@ -396,7 +489,7 @@ export default {
 .bt {
     position: absolute;
     width: 100%;
-    height: 550px;
+    height: 600px;
     top: 225px;
 }
 
@@ -467,5 +560,16 @@ export default {
 .title {
     left: -30px;
 }
-</style>
-  
+
+.gwc {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    background-color: #fff;
+}
+
+.btl {
+    position: fixed;
+}</style>
